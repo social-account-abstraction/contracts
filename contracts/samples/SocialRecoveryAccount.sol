@@ -177,17 +177,12 @@ contract SocialRecoveryAccount is BaseAccount, TokenCallbackHandler, UUPSUpgrade
 
   function _checkOneTimeSocialRecoveryAgentsKeys(
     bytes32[] calldata oneTimeSocialRecoveryAgentsKeys,
-    bytes32[] calldata newSocialRecoveryAgents,
-    bytes32 salt
+    bytes32[] calldata newSocialRecoveryAgents
   ) private {
     require(oneTimeSocialRecoveryAgentsKeys.length == socialRecoveryAgents.length, "wrong SRA count");
 
     for (uint256 i = 0; i < oneTimeSocialRecoveryAgentsKeys.length; i++) {
-      bytes32 hash = keccak256(abi.encode(
-          keccak256('SocialRecovery(bytes32 salt,bytes32 key)'),
-          salt,
-          oneTimeSocialRecoveryAgentsKeys[i]
-        ));
+      bytes32 hash = keccak256(abi.encode(oneTimeSocialRecoveryAgentsKeys[i]));
       require(hash == socialRecoveryAgents[i], "wrong SRA key");
     }
 
@@ -202,11 +197,10 @@ contract SocialRecoveryAccount is BaseAccount, TokenCallbackHandler, UUPSUpgrade
   function unfreeze(
     bytes32[] calldata oneTimeSocialRecoveryAgentsKeys,
     bytes32[] calldata newSocialRecoveryAgents,
-    bytes32 salt,
     address[] calldata newAlertAgents,
     address newOwner
   ) external {
-    _checkOneTimeSocialRecoveryAgentsKeys(oneTimeSocialRecoveryAgentsKeys, newSocialRecoveryAgents, salt);
+    _checkOneTimeSocialRecoveryAgentsKeys(oneTimeSocialRecoveryAgentsKeys, newSocialRecoveryAgents);
 
     if (newAlertAgents.length != 0) {
       alertAgents = newAlertAgents;
