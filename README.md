@@ -17,8 +17,7 @@ freeze(
 ```
 unfreeze(
     bytes32[] calldata oneTimeSocialRecoveryAgentsKeys, 
-    bytes32[] calldata newSocialRecoveryAgents, 
-    bytes32 salt, 
+    bytes32[] calldata newSocialRecoveryAgents,
     address[] calldata newAlertAgents, 
     address newOwner
 ) external
